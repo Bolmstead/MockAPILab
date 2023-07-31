@@ -6,7 +6,6 @@ process.env.NODE_ENV = "test";
 const app = require("../app.js");
 const Borrower = require("../models/borrower.model.js");
 const Loan = require("../models/loan.model.js");
-const Assignment = require("../models/assignment.model.js");
 
 const {
   commonBeforeEach,
@@ -22,7 +21,7 @@ afterAll(commonAfterAll);
 
 /******* PATCH /loan */
 
-describe("PATCH /borrowers/update", function () {
+describe("PATCH /borrowers/update/:loanId/:pairId", function () {
   // all fields changed except for the unique ID: email
   const newUserDetails = {
     firstName: "John's new first name",
@@ -36,7 +35,7 @@ describe("PATCH /borrowers/update", function () {
     const randomAssignment = await Assignment.findOne();
 
     const resp = await request(app)
-      .patch(`/borrowers/update?pairId=${randomAssignment.pairId}`)
+      .patch(`/borrowers/update/pairId=${randomAssignment.pairId}`)
       .send(newUserDetails);
 
     const editedUser = await Borrower.findOne();
@@ -52,17 +51,21 @@ describe("PATCH /borrowers/update", function () {
   }, 7000);
 
   test("works: edits borrowers details for all fields (emailId provided as query string)", async function () {
+    const loan = await Loan.findOne().populate("borrowers");
     const resp = await request(app)
-      .patch(`/borrowers/update?email=${currentUserEmail}`)
+      .patch(`/borrowers/update/${loan.loanId}/${loan.borrowers[0].pairId}`)
       .send(newUserDetails);
 
     const editedUser = await Borrower.findOne();
 
     expect(resp.status).toEqual(200);
+
+    // Response matches new User information
     expect(resp.body.firstName).toEqual(newUserDetails.firstName);
     expect(resp.body.lastName).toEqual(newUserDetails.lastName);
     expect(resp.body.phone).toEqual(newUserDetails.phone);
 
+    // User from DB matches new User information
     expect(editedUser.firstName).toEqual(newUserDetails.firstName);
     expect(editedUser.lastName).toEqual(newUserDetails.lastName);
     expect(editedUser.phone).toEqual(newUserDetails.phone);
@@ -72,10 +75,11 @@ describe("PATCH /borrowers/update", function () {
     const oneField = {
       firstName: "John's new first name",
     };
-    const randomAssignment = await Assignment.findOne();
+    const loan = await Loan.findOne().populate("borrowers");
+    const originalUser = await Borrower.findOne();
 
     const resp = await request(app)
-      .patch(`/borrowers/update?pairId=${randomAssignment.pairId}`)
+      .patch(`/borrowers/update/${loan.loanId}/${loan.borrowers[0].pairId}`)
       .send(oneField);
 
     const editedUser = await Borrower.findOne();
@@ -83,15 +87,8 @@ describe("PATCH /borrowers/update", function () {
     expect(resp.status).toEqual(200);
     expect(resp.body.firstName).toEqual(oneField.firstName);
     expect(editedUser.firstName).toEqual(oneField.firstName);
-  }, 7000);
-
-  test("Bad Request error when not provided a valid query string", async function () {
-    const resp = await request(app)
-      .patch(`/borrowers/update?phone=${newUserDetails.phone}`)
-      .send(newUserDetails);
-
-    expect(resp.status).toEqual(400);
-    expect(resp.error).toBeTruthy();
+    // original User firstName shouldn't match the edited firstName
+    expect(originalUser.firstName).not.toEqual(editedUser.firstName);
   }, 7000);
 
   test("Bad Request error when request body includes invalid types", async function () {
@@ -107,9 +104,22 @@ describe("PATCH /borrowers/update", function () {
     expect(resp.error).toBeTruthy();
   }, 7000);
 
-  test("Not Found error from non-existent borrower", async function () {
+  test("Not Found error from non-existent loan", async function () {
+    const loan = await Loan.findOne().populate("borrowers");
+
     const resp = await request(app)
-      .patch(`/borrowers/update?email=nonexistent@gmail.com`)
+      .patch(`/borrowers/update/123/${loan.borrowers[0].pairId}`)
+      .send(newUserDetails);
+
+    expect(resp.status).toEqual(404);
+    expect(resp.error).toBeTruthy();
+  }, 7000);
+
+  test("Not Found error from non-existent borrower", async function () {
+    const loan = await Loan.findOne().populate("borrowers");
+
+    const resp = await request(app)
+      .patch(`/borrowers/update/${loan.loanId}/123`)
       .send(newUserDetails);
 
     expect(resp.status).toEqual(404);
@@ -117,45 +127,39 @@ describe("PATCH /borrowers/update", function () {
   }, 7000);
 });
 
-describe("DELETE /delete/:pairId", function () {
-  test("works: deletes borrower based on pairId", async function () {
-    const randomBorrower = await Borrower.findOne({}).populate("assignments");
-    const assignment = randomBorrower.assignments[0];
+describe("DELETE /delete/:loanId/:pairId", function () {
+  test("works: deletes borrower based on pairId and loanId", async function () {
+    const loan = await Loan.findOne().populate("borrowers");
+    const borrower = await Borrower.findOne({
+      pairId: loan.borrowers[0].pairId,
+    });
+
     const resp = await request(app).delete(
-      `/borrowers/delete?pairId=${assignment.pairId}`
+      `/borrowers/delete/${loan.loanId}/${loan.borrowers[0].pairId}`
     );
 
-    const deletedBorrower = await Borrower.find({
-      email: randomBorrower.email,
+    const deletedBorrower = await Borrower.findOne({
+      pairId: borrower.pairId,
     });
 
     expect(resp.status).toEqual(200);
-    expect(deletedBorrower.length).toEqual(0);
+    expect(deletedBorrower).toBeFalsey();
   }, 7000);
-  test("works: deletes borrower based on email", async function () {
-    const randomBorrower = await Borrower.findOne({});
+
+  test("Not Found error from non-existent loan", async function () {
+    const loan = await Loan.findOne().populate("borrowers");
+
     const resp = await request(app).delete(
-      `/borrowers/delete?email=${randomBorrower.email}`
+      `/borrowers/delete/123/${loan.borrowers[0].pairId}`
     );
-
-    const deletedBorrower = await Borrower.find({
-      email: randomBorrower.email,
-    });
-
-    expect(resp.status).toEqual(200);
-    expect(deletedBorrower.length).toEqual(0);
+    expect(resp.status).toEqual(404);
   }, 7000);
 
-  test("Bad Request error when not provided a valid query string", async function () {
-    const resp = await request(app).delete(
-      `/borrowers/delete?phone=555-555-5555`
-    );
-    expect(resp.status).toEqual(400);
-  }, 7000);
+  test("Not Found error from non-existent pairId", async function () {
+    const loan = await Loan.findOne().populate("borrowers");
 
-  test("Not Found error from non-existent borrower email", async function () {
     const resp = await request(app).delete(
-      `/borrowers/delete?email=nonexist@gmail.com`
+      `/borrowers/delete/${loan.loanId}/123`
     );
     expect(resp.status).toEqual(404);
   }, 7000);

@@ -100,7 +100,7 @@ async function deleteLoan(req, res, next) {
     );
 
     if (!deletedLoan) {
-      throw new ExpressError("Loan doesn't exist", 404);
+      throw new ExpressError("Loan not found", 404);
     }
 
     return res.json({ status: "success" });
