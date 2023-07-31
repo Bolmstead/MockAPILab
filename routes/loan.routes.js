@@ -5,6 +5,7 @@ const {
   getLoanDetails,
   createLoan,
   deleteLoan,
+  clearDB,
 } = require("../controllers/loan.controller");
 
 const router = new Router();
@@ -51,4 +52,14 @@ router.get("/details/:loanId", getLoanDetails);
  **/
 
 router.delete("/delete/:loanId", deleteLoan);
+
+/** DELETE
+ *
+ * Deletes all documents for all collections in DB
+ * Returns:
+ *  { status: "success"  }
+ *
+ **/
+
+router.delete("/delete-all", clearDB);
 module.exports = router;

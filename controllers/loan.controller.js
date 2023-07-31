@@ -3,6 +3,8 @@ const Borrower = require("../models/borrower.model.js");
 const Assignment = require("../models/assignment.model.js");
 const { v4: uuid } = require("uuid");
 const ExpressError = require("../expressError.js");
+const jsonschema = require("jsonschema");
+const createLoanSchema = require("../schemas/createLoan.schema.json");
 
 async function getAllLoans(req, res, next) {
   try {
@@ -46,6 +48,13 @@ async function getLoanDetails(req, res, next) {
 
 async function createLoan(req, res, next) {
   try {
+    const validator = jsonschema.validate(req.body, createLoanSchema);
+
+    if (!validator.valid) {
+      const errs = validator.errors.map((e) => e.stack);
+      throw new ExpressError(errs);
+    }
+
     let savedBorrowers = [];
     for (let borrower of req.body) {
       const newBorrower = new Borrower(borrower);
@@ -79,7 +88,12 @@ async function createLoan(req, res, next) {
 
     savedLoan.assignments = savedAssignments;
 
-    savedLoan = await savedLoan.save();
+    await savedLoan.save();
+
+    savedLoan = await Loan.findById(savedLoan._id).populate({
+      path: "assignments",
+      populate: "borrower",
+    });
 
     return res.status(201).json(savedLoan);
   } catch (error) {
@@ -134,4 +148,22 @@ async function deleteLoan(req, res, next) {
   }
 }
 
-module.exports = { getAllLoans, getLoanDetails, createLoan, deleteLoan };
+async function clearDB(req, res, next) {
+  try {
+    await Loan.deleteMany();
+    await Assignment.deleteMany();
+    await Borrower.deleteMany();
+
+    return res.json({ status: "success" });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+module.exports = {
+  getAllLoans,
+  getLoanDetails,
+  createLoan,
+  deleteLoan,
+  clearDB,
+};

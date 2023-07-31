@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "array",
+  "default": [],
+  "title": "Root Schema",
+  "items": {
+    "type": "object",
+    "title": "A Schema",
+    "required": ["email", "firstName", "lastName", "phone"],
+    "properties": {
+      "email": {
+        "type": "string",
+        "title": "The email Schema",
+        "examples": ["testBarbra@gmail.com", "testBob@gmail.com"]
+      },
+      "firstName": {
+        "type": "string",
+        "title": "The firstName Schema",
+        "examples": ["Barbra", "Bob"]
+      },
+      "lastName": {
+        "type": "string",
+        "title": "The lastName Schema",
+        "examples": ["Johnson", "Smith"]
+      },
+      "phone": {
+        "type": "string",
+        "title": "The phone Schema",
+        "examples": ["208-999-9799", "208-555-5555"]
+      }
+    },
+    "examples": [
+      {
+        "email": "testBarbra@gmail.com",
+        "firstName": "Barbra",
+        "lastName": "Johnson",
+        "phone": "208-999-9799"
+      },
+      {
+        "email": "testBob@gmail.com",
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "phone": "208-555-5555"
+      }
+    ]
+  },
+  "examples": [
+    [
+      {
+        "email": "testBarbra@gmail.com",
+        "firstName": "Barbra",
+        "lastName": "Johnson",
+        "phone": "208-999-9799"
+      },
+      {
+        "email": "testBob@gmail.com",
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "phone": "208-555-5555"
+      }
+    ]
+  ]
+}

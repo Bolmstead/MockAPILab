@@ -27,7 +27,7 @@ app.get("/ping", (req, res) => {
 });
 
 app.use(function (req, res, next) {
-  return res.json({ error: { status: 404, message: "Not Found" } });
+  return res.status(404).json({ error: { status: 404, message: "Not Found" } });
 });
 
 /** Generic error handler; anything unhandled goes here. */

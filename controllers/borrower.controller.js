@@ -1,6 +1,8 @@
 const Borrower = require("../models/borrower.model.js");
 const Assignment = require("../models/assignment.model.js");
 const Loan = require("../models/loan.model.js");
+const jsonschema = require("jsonschema");
+const editLoanSchema = require("../schemas/editLoan.schema.json");
 
 const ExpressError = require("../expressError.js");
 
@@ -12,6 +14,12 @@ async function updateBorrowerInfo(req, res, next) {
         "Please provide Borrower email or pairId is query parameters to edit Borrower information",
         400
       );
+    }
+
+    const validator = jsonschema.validate(req.body, editLoanSchema);
+    if (!validator.valid) {
+      const errs = validator.errors.map((e) => e.stack);
+      throw new ExpressError(errs);
     }
 
     const { firstName, lastName, phone } = req.body;
@@ -82,9 +90,10 @@ async function deleteBorrower(req, res, next) {
           borrower: deletedBorrower,
         }).populate("borrower");
       }
-      let foundLoan = await Loan.findById(foundAssignment.loan).populate(
-        "assignments"
-      );
+      let foundLoan = await Loan.findById(foundAssignment.loan).populate({
+        path: "assignments",
+        populate: "borrower",
+      });
 
       for (let assign of foundLoan.assignments) {
         if (assign.pairId === deletedBorrower.assignments[0].pairId) {
