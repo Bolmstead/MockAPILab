@@ -65,7 +65,10 @@ async function deleteBorrower(req, res, next) {
   try {
     const { email, pairId } = req.query;
     if (!email && !pairId) {
-      throw new ExpressError("Borrower not found", 404);
+      throw new ExpressError(
+        "Please provide Borrower email or pairId is query parameters to delete Borrower",
+        400
+      );
     }
 
     // Remove the Assignment from the Borrower
@@ -110,7 +113,7 @@ async function deleteBorrower(req, res, next) {
       await foundLoan.save();
       return res.json({ status: "success", loan: foundLoan });
     } else {
-      throw new ExpressError("Borrower does not exist", 500);
+      throw new ExpressError("Borrower does not exist", 404);
     }
   } catch (error) {
     return next(error);

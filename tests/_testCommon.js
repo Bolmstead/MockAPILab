@@ -8,16 +8,12 @@ const Assignment = require("../models/assignment.model.js");
 const { v4: uuid } = require("uuid");
 
 async function commonBeforeAll() {
-  console.log("commonBeforeAll!!!()");
-
   const mongoServer = await MongoMemoryServer.create();
-
   await mongoose.connect(mongoServer.getUri());
 }
 
 async function commonBeforeEach() {
-  console.log("commonBeforeEach!!!()");
-
+  // Create one loan with a borrower before every test
   const testUser1 = new Borrower({
     email: "testBorrower1@test.com",
     firstName: "John",
@@ -26,14 +22,10 @@ async function commonBeforeEach() {
   });
 
   const savedUser = await testUser1.save();
-
   const loanId = uuid();
-
   const testLoan = new Loan({ loanId });
   const savedLoan = await testLoan.save();
-
   const pairId1 = uuid();
-
   const assignment1 = new Assignment({
     pairId: pairId1,
     loan: savedLoan,
@@ -49,14 +41,13 @@ async function commonBeforeEach() {
 }
 
 async function commonAfterEach() {
-  console.log("commonAfterEach()");
+  // Clear Database after each test
   await Borrower.deleteMany({});
   await Assignment.deleteMany({});
   await Loan.deleteMany({});
 }
 
 async function commonAfterAll() {
-  console.log("commonAfterAllllllll()");
   await mongoose.disconnect();
   await mongoose.connection.close();
 }
