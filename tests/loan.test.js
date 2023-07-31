@@ -1,3 +1,5 @@
+
+
 "use strict";
 
 const request = require("supertest");
@@ -43,7 +45,6 @@ describe("POST /loan/create", function () {
       .send([testUser1, testUser2]);
 
     const createdLoan = await Loan.findById(resp.body._id);
-    console.log("🚀 ~ file: loan.test.js:48 ~ createdLoan:", createdLoan);
     const createdBorrower1 = await Borrower.findOne({
       email: testUser1.email,
     });
@@ -118,7 +119,6 @@ describe("POST /loan/create", function () {
 describe("GET /loans/all", function () {
   test("works: gets all loans", async function () {
     const resp = await request(app).get("/loans/all");
-    console.log("🚀 ~ file: loan.test.js:135 ~ resp:", resp.body);
     expect(resp.status).toEqual(200);
     expect(resp.body.length).toEqual(1);
   }, 7000);
@@ -127,16 +127,13 @@ describe("GET /loans/all", function () {
 describe("GET /details/:loanId", function () {
   test("works: gets loan details", async function () {
     const randomLoan = await Loan.findOne();
-    console.log("🚀 ~ file: loan.test.js:129 ~ randomLoan:", randomLoan);
     const resp = await request(app).get(`/loans/details/${randomLoan.loanId}`);
-    console.log("🚀 ~ file: loan.test.js:135 ~ resp:", resp.body);
     expect(resp.status).toEqual(200);
     expect(resp.body[0].loanId).toEqual(randomLoan.loanId);
   }, 7000);
 
   test("Not Found error from non-existent loanId", async function () {
     const resp = await request(app).get(`/loans/details/1234`);
-    console.log("🚀 ~ file: loan.test.js:135 ~ resp:", resp.body);
     expect(resp.status).toEqual(404);
   }, 7000);
 });

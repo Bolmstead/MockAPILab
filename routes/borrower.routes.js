@@ -3,9 +3,11 @@ const { Router } = require("express");
 const { updateBorrowerInfo, deleteBorrower } = require("../controllers/borrower.controller");
 const router = new Router();
 
-/** PATCH /[loanId] => { [ {loan}, {loan} ] }
+/** PATCH /update?pairId="example" => { [ {loan}, {loan} ] }
  *
+ * 
  * Updates a Borrower's firstName, lastName, or phone if provided in body of payload
+ * emailId or pairId must be provided in as a query string to this route
  * 
  * Payload:
  * {firstName, lastName, phone}
