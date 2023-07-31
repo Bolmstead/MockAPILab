@@ -4,12 +4,14 @@
   "description": "A Mock API to be used with LTK Skills assesments",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "jest -i"
+    "start": "node index.js",
+    "test": "jest -i",
+    "dev": "nodemon index.js"
   },
   "author": "Tom Watson",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jest": "^29.6.2",
