@@ -10,10 +10,27 @@ const {
 
 const router = new Router();
 
-/** POST / body: [{ user }, { user }] => { user, token }
+/** POST /
  *
  * Creates a new loan and assigns new borrowers to the loan.
  * This returns the newly created loan and nested assignments/borrowers:
+ * 
+ * Example Request Body: 
+ [
+    {
+        "email": "testBarbra@gmail.com",
+        "firstName": "Barbra",
+        "lastName": "Johnson",
+        "phone": "208-999-9799"
+    },
+        {
+        "email": "testBob@gmail.com",
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "phone": "208-555-5555"
+    }
+
+]
  *
  * Returns:
  *  { loanId, assignments: [ {assignment}, {assignment} ]  }
@@ -22,7 +39,7 @@ const router = new Router();
 
 router.post("/create", createLoan);
 
-/** GET / => { [ {loan}, {loan} ] }
+/** GET / 
  *
  * Returns all loans.
  * Returns:
@@ -43,8 +60,7 @@ router.get("/details/:loanId", getLoanDetails);
 
 /** DELETE / [{ user }, { user }] => { user, token }
  *
- * Creates a new loan and assigns new borrowers to the loan.
- * This returns the newly created loan and nested assignments/borrowers:
+ * Deletes a loan based on loanId URL parameter provided
  *
  * Returns:
  *  { status: "success"  }
