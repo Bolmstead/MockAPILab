@@ -8,10 +8,10 @@ const loanSchema = new Schema(
       required: true,
       unique: true,
     },
-    assignments: [
+    borrowers: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Assignment",
+        ref: "Borrower",
       },
     ],
   },

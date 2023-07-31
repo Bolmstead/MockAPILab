@@ -1,22 +1,21 @@
 const Borrower = require("../models/borrower.model.js");
-const Assignment = require("../models/assignment.model.js");
 const Loan = require("../models/loan.model.js");
 const jsonschema = require("jsonschema");
-const editLoanSchema = require("../schemas/editLoan.schema.json");
+const updateBorrowerSchema = require("../schemas/updateBorrower.schema.json");
 
 const ExpressError = require("../expressError.js");
 
 async function updateBorrowerInfo(req, res, next) {
   try {
-    const { email, pairId } = req.query;
-    if (!email && !pairId) {
+    const { loanId, pairId } = req.params;
+    if (!loanId || !pairId) {
       throw new ExpressError(
-        "Please provide Borrower email or pairId is query parameters to edit Borrower information",
+        "Please provide the loanId and pairId in url params of request",
         400
       );
     }
 
-    const validator = jsonschema.validate(req.body, editLoanSchema);
+    const validator = jsonschema.validate(req.body, updateBorrowerSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new ExpressError(errs);
@@ -26,36 +25,37 @@ async function updateBorrowerInfo(req, res, next) {
     let propertiesToChange = { firstName, lastName, phone };
     if (!firstName && !lastName && !phone) {
       throw new ExpressError(
-        "Please provide Borrower email, firstName, or phone in body of request",
+        "Please provide Borrower firstName, lastName, or phone in body of request",
         400
       );
     }
 
     let borrower;
-    if (email) {
-      borrower = await Borrower.findOne({ email });
-    } else if (pairId) {
-      const assignment = await Assignment.findOne({ pairId }).populate(
-        "borrower"
-      );
-      if (!assignment) {
-        throw new ExpressError("Assignment not found", 404);
+
+    const foundLoan = await Loan.findOne({ loanId }).populate("borrowers");
+    console.log(
+      "🚀 ~ file: borrower.controller.js:35 ~ updateBorrowerInfo ~ foundLoan:",
+      foundLoan
+    );
+
+    for (let user of foundLoan.borrowers) {
+      if (user.pairId === pairId) {
+        borrower = user;
       }
-      borrower = assignment.borrower;
     }
 
-    if (borrower) {
-      for (const key in propertiesToChange) {
-        if (!propertiesToChange[key]) {
-          continue;
-        }
-        borrower[key] = propertiesToChange[key];
-      }
-      let savedBorrower = await borrower.save();
-      return res.json(savedBorrower);
-    } else {
+    if (!borrower) {
       throw new ExpressError("Borrower not found", 404);
     }
+
+    for (const key in propertiesToChange) {
+      if (!propertiesToChange[key]) {
+        continue;
+      }
+      borrower[key] = propertiesToChange[key];
+    }
+    let savedBorrower = await borrower.save();
+    return res.json(savedBorrower);
   } catch (error) {
     return next(error);
   }
@@ -63,58 +63,44 @@ async function updateBorrowerInfo(req, res, next) {
 
 async function deleteBorrower(req, res, next) {
   try {
-    const { email, pairId } = req.query;
-    if (!email && !pairId) {
+    const { loanId, pairId } = req.params;
+    if (!loanId || !pairId) {
       throw new ExpressError(
-        "Please provide Borrower email or pairId is query parameters to delete Borrower",
+        "Please provide the loanId and pairId in url params of request",
         400
       );
     }
 
-    // Remove the Assignment from the Borrower
-    let deletedBorrower, foundAssignment;
-    if (email) {
-      deletedBorrower = await Borrower.findOneAndDelete({ email }).populate(
-        "assignments"
-      );
-    } else if (pairId) {
-      const foundAssignment = await Assignment.findOne({ pairId }).populate(
-        "borrower"
-      );
-      deletedBorrower = await Borrower.findOneAndDelete({
-        _id: foundAssignment.borrower._id,
-      }).populate("assignments");
-    }
+    let borrower;
 
-    // Remove the Assignment from the Loan
-    if (deletedBorrower) {
-      if (!foundAssignment) {
-        foundAssignment = await Assignment.findOne({
-          borrower: deletedBorrower,
-        }).populate("borrower");
-      }
-      let foundLoan = await Loan.findById(foundAssignment.loan).populate({
-        path: "assignments",
-        populate: "borrower",
-      });
+    const foundLoan = await Loan.findOne({ loanId }).populate("borrowers");
+    console.log(
+      "🚀 ~ file: borrower.controller.js:35 ~ updateBorrowerInfo ~ foundLoan:",
+      foundLoan
+    );
 
-      for (let assign of foundLoan.assignments) {
-        if (assign.pairId === deletedBorrower.assignments[0].pairId) {
-          let index = foundLoan.assignments.indexOf(assign);
-          foundLoan.assignments.splice(index, 1);
+    for (let user of foundLoan.borrowers) {
+      if (user.pairId === pairId) {
+        borrower = user;
+        let deleteResult = await Borrower.deleteOne({ pairId });
+        console.log(
+          "🚀 ~ file: borrower.controller.js:90 ~ deleteBorrower ~ deleteResult:",
+          deleteResult
+        );
+        if (!deleteResult) {
+          throw new ExpressError("Unable to delete borrower", 500);
         }
+        let index = foundLoan.borrowers.indexOf(user);
+        foundLoan.splice(index, 1);
+        await foundLoan.save();
       }
-
-      // Delete the Assignment
-      let deletedAssignment = await Assignment.deleteOne({
-        pairId: deletedBorrower.assignments[0].pairId,
-      });
-
-      await foundLoan.save();
-      return res.json({ status: "success", loan: foundLoan });
-    } else {
-      throw new ExpressError("Borrower does not exist", 404);
     }
+
+    if (!borrower) {
+      throw new ExpressError("Borrower not found", 404);
+    }
+
+    return res.json({ status: "success", loan: foundLoan });
   } catch (error) {
     return next(error);
   }

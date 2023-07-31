@@ -6,7 +6,6 @@ const cors = require('cors');
 const app = express();
 require("./models/borrower.model.js");
 require("./models/loan.model.js");
-require("./models/assignment.model.js");
 
 const routes = require("./routes/index.js");
 

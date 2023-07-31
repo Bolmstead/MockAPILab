@@ -2,9 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const borrowerSchema = new Schema(
   {
-    // added email as a unique identifier in order to know if
-    // new borrower or if already been created
-    email: {
+    pairId: {
       type: String,
       trim: true,
       required: true,
@@ -25,12 +23,6 @@ const borrowerSchema = new Schema(
       trim: true,
       required: true,
     },
-    assignments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Assignment",
-      },
-    ],
   },
   {
     timestamps: true,

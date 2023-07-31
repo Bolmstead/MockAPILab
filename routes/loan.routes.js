@@ -13,18 +13,16 @@ const router = new Router();
 /** POST /
  *
  * Creates a new loan and assigns new borrowers to the loan.
- * This returns the newly created loan and nested assignments/borrowers:
+ * This returns the newly created loan and nested borrowers:
  * 
  * Example Request Body: 
  [
     {
-        "email": "testBarbra@gmail.com",
         "firstName": "Barbra",
         "lastName": "Johnson",
         "phone": "208-999-9799"
     },
         {
-        "email": "testBob@gmail.com",
         "firstName": "Bob",
         "lastName": "Smith",
         "phone": "208-555-5555"
@@ -33,7 +31,7 @@ const router = new Router();
 ]
  *
  * Returns:
- *  { loanId, assignments: [ {assignment}, {assignment} ]  }
+ *  { loanId, borrowers: [ {borrower}, {borrower} ]  }
  *
  **/
 
@@ -43,7 +41,7 @@ router.post("/create", createLoan);
  *
  * Returns all loans.
  * Returns:
- * [{ loanId, assignments: [ {assignment}, {assignment} ]  }, ...]
+ * [{ loanId, borrowers: [ {borrower}, {borrower} ]  }, ...]
  *
  **/
 router.get("/all", getAllLoans);
@@ -52,13 +50,13 @@ router.get("/all", getAllLoans);
  *
  * Returns a loan's details based on loanId URL parameter provided.
  * Returns:
- * { loanId, assignments: [ {assignment}, {assignment} ]  }
+ * { loanId, borrowers: [ {borrower}, {borrower} ]  }
  *
  **/
 
 router.get("/details/:loanId", getLoanDetails);
 
-/** DELETE / [{ user }, { user }] => { user, token }
+/** DELETE / 
  *
  * Deletes a loan based on loanId URL parameter provided
  *

@@ -1,6 +1,5 @@
 const Loan = require("../models/loan.model.js");
 const Borrower = require("../models/borrower.model.js");
-const Assignment = require("../models/assignment.model.js");
 const { v4: uuid } = require("uuid");
 const ExpressError = require("../expressError.js");
 const jsonschema = require("jsonschema");
@@ -9,13 +8,7 @@ const createLoanSchema = require("../schemas/createLoan.schema.json");
 async function getAllLoans(req, res, next) {
   try {
     const allLoans = await Loan.find({}).populate({
-      path: "assignments",
-      populate: [
-        {
-          path: "borrower",
-          model: "Borrower",
-        },
-      ],
+      path: "borrowers",
     });
 
     return res.json(allLoans);
@@ -32,12 +25,9 @@ async function getLoanDetails(req, res, next) {
       throw new ExpressError("loanId not provided", 400);
     }
 
-    const loan = await Loan.find({ loanId }).populate({
-      path: "assignments",
-      populate: "borrower",
-    });
+    const loan = await Loan.findOne({ loanId }).populate("borrowers");
 
-    if (loan.length == 0) {
+    if (!loan) {
       throw new ExpressError("Loan not found", 404);
     }
     return res.json(loan);
@@ -54,48 +44,40 @@ async function createLoan(req, res, next) {
       const errs = validator.errors.map((e) => e.stack);
       throw new ExpressError(errs);
     }
-
-    let savedBorrowers = [];
-    for (let borrower of req.body) {
-      const newBorrower = new Borrower(borrower);
-
-      const savedBorrower = await newBorrower.save();
-
-      savedBorrowers.push(savedBorrower);
-    }
     const loanId = uuid();
 
     const newLoan = new Loan({ ...req.body, loanId });
-    let savedLoan = await newLoan.save();
 
-    const savedAssignments = [];
-    for (let borrower of savedBorrowers) {
+    await newLoan.save();
+    console.log(
+      "🚀 ~ file: loan.controller.js:51 ~ createLoan ~ newLoan:",
+      newLoan
+    );
+
+    for (let borrower of req.body) {
       const pairId = uuid();
 
-      const assignmentObject = {
+      const newBorrower = new Borrower({
+        ...borrower,
         pairId,
-        loan: savedLoan._id,
-        borrower: borrower._id,
-      };
+      });
 
-      const newAssignment = new Assignment(assignmentObject);
-      const savedAssignment = await newAssignment.save();
+      const savedBorrower = await newBorrower.save();
+      console.log(
+        "🚀 ~ file: loan.controller.js:63 ~ createLoan ~ savedBorrower:",
+        savedBorrower
+      );
 
-      borrower.assignments = savedAssignment;
-      savedAssignments.push(savedAssignment);
-      await borrower.save();
+      newLoan.borrowers.push(savedBorrower);
+      console.log(
+        "🚀 ~ file: loan.controller.js:82 ~ createLoan ~ newLoan:",
+        newLoan
+      );
     }
 
-    savedLoan.assignments = savedAssignments;
+    await newLoan.save();
 
-    await savedLoan.save();
-
-    savedLoan = await Loan.findById(savedLoan._id).populate({
-      path: "assignments",
-      populate: "borrower",
-    });
-
-    return res.status(201).json(savedLoan);
+    return res.status(201).json(newLoan);
   } catch (error) {
     return next(error);
   }
@@ -114,32 +96,11 @@ async function deleteLoan(req, res, next) {
 
     // Delete the Loan
     let deletedLoan = await Loan.findOneAndDelete({ loanId }).populate(
-      "assignments"
+      "borrowers"
     );
 
     if (!deletedLoan) {
       throw new ExpressError("Loan doesn't exist", 404);
-    }
-
-    // Delete the Assignments with that Loan
-    let allLoanAssignments = await Assignment.find({ loan: deletedLoan._id });
-    await Assignment.deleteMany({
-      loan: deletedLoan._id,
-    });
-
-    // Remove the Assignments from the Users
-    for (let assign of allLoanAssignments) {
-      const borrower = await Borrower.findOne(assign.borrower).populate(
-        "assignments"
-      );
-
-      for (let borrowersAssign of borrower.assignments) {
-        if (borrowersAssign.pairId === assign.pairId) {
-          let index = borrower.assignments.indexOf(borrowersAssign);
-          borrower.assignments.splice(index, 1);
-          await borrower.save();
-        }
-      }
     }
 
     return res.json({ status: "success" });
@@ -151,7 +112,6 @@ async function deleteLoan(req, res, next) {
 async function clearDB(req, res, next) {
   try {
     await Loan.deleteMany();
-    await Assignment.deleteMany();
     await Borrower.deleteMany();
 
     return res.json({ status: "success" });
