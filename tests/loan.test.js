@@ -24,18 +24,13 @@ afterAll(commonAfterAll);
 /******* POST /loan */
 
 describe("POST /loan/create", function () {
-  const id1 = uuid();
-  const id2 = uuid();
-
   const testUser1 = {
-    pairId: id1,
     firstName: "Jane",
     lastName: "Smith",
     phone: "123-123-1234",
   };
 
   const testUser2 = {
-    pairId: id2,
     firstName: "Bob",
     lastName: "Hope",
     phone: "555-555-5555",
@@ -48,10 +43,13 @@ describe("POST /loan/create", function () {
 
     const createdLoan = await Loan.findById(resp.body._id);
     const createdBorrower1 = await Borrower.findOne({
-      pairId: testUser1.pairId,
+      firstName: testUser1.firstName,
+      lastName: testUser1.lastName,
     });
+
     const createdBorrower2 = await Borrower.findOne({
-      pairId: testUser2.pairId,
+      firstName: testUser2.firstName,
+      lastName: testUser2.lastName,
     });
 
     const allLoans = await Loan.find();
@@ -67,8 +65,12 @@ describe("POST /loan/create", function () {
     expect(allLoans.length).toEqual(2);
 
     // Created Borrowers exist. Only 2 exist
-    expect(createdBorrower1.pairId).toEqual(testUser1.pairId);
-    expect(createdBorrower2.pairId).toEqual(testUser2.pairId);
+    expect(createdBorrower1.firstName).toEqual(testUser1.firstName);
+    expect(createdBorrower1.lastName).toEqual(testUser1.lastName);
+
+    expect(createdBorrower2.firstName).toEqual(testUser2.firstName);
+    expect(createdBorrower2.lastName).toEqual(testUser2.lastName);
+
     expect(allBorrowers.length).toEqual(3);
   }, 7000);
 

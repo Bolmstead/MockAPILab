@@ -33,10 +33,7 @@ async function updateBorrowerInfo(req, res, next) {
     let borrower;
 
     const foundLoan = await Loan.findOne({ loanId }).populate("borrowers");
-    console.log(
-      "🚀 ~ file: borrower.controller.js:35 ~ updateBorrowerInfo ~ foundLoan:",
-      foundLoan
-    );
+
 
     if (!foundLoan) {
       throw new ExpressError("Loan not found", 404);
@@ -68,11 +65,7 @@ async function updateBorrowerInfo(req, res, next) {
 async function deleteBorrower(req, res, next) {
   try {
     const { loanId, pairId } = req.params;
-    console.log(
-      "🚀 ~ file: borrower.controller.js:67 ~ deleteBorrower ~ loanId, pairId:",
-      loanId,
-      pairId
-    );
+
     if (!loanId || !pairId) {
       throw new ExpressError(
         "Please provide the loanId and pairId in url params of request",
@@ -83,10 +76,7 @@ async function deleteBorrower(req, res, next) {
     let borrower;
 
     const foundLoan = await Loan.findOne({ loanId }).populate("borrowers");
-    console.log(
-      "🚀 ~ file: borrower.controller.js:35 ~ updateBorrowerInfo ~ foundLoan:",
-      foundLoan
-    );
+
 
     if (!foundLoan) {
       throw new ExpressError("Loan not found", 404);
@@ -96,10 +86,7 @@ async function deleteBorrower(req, res, next) {
       if (user.pairId === pairId) {
         borrower = user;
         let deleteResult = await Borrower.deleteOne({ pairId });
-        console.log(
-          "🚀 ~ file: borrower.controller.js:90 ~ deleteBorrower ~ deleteResult:",
-          deleteResult
-        );
+
         if (!deleteResult) {
           throw new ExpressError("Unable to delete borrower", 500);
         }

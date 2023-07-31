@@ -6,7 +6,7 @@ const router = new Router();
 /** PATCH 
  *
  * 
- * Updates a Borrower's firstName, lastName, or phone when provided in body of payload
+ * Updates a Borrower's firstName, lastName, or phone when provided in body of payload.
  * loanId and pairId must be provided as URL parameters
  * 
  * Payload:

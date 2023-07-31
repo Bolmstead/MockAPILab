@@ -27,8 +27,8 @@ async function commonBeforeEach() {
   const testLoan = new Loan({ loanId });
   await testLoan.save();
 
-  savedLoan.borrowers.push(testUser1);
-  await savedLoan.save();
+  testLoan.borrowers.push(testUser1);
+  await testLoan.save();
 }
 
 async function commonAfterEach() {

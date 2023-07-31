@@ -49,10 +49,6 @@ async function createLoan(req, res, next) {
     const newLoan = new Loan({ ...req.body, loanId });
 
     await newLoan.save();
-    console.log(
-      "🚀 ~ file: loan.controller.js:51 ~ createLoan ~ newLoan:",
-      newLoan
-    );
 
     for (let borrower of req.body) {
       const pairId = uuid();
@@ -63,19 +59,14 @@ async function createLoan(req, res, next) {
       });
 
       const savedBorrower = await newBorrower.save();
-      console.log(
-        "🚀 ~ file: loan.controller.js:63 ~ createLoan ~ savedBorrower:",
-        savedBorrower
-      );
 
       newLoan.borrowers.push(savedBorrower);
-      console.log(
-        "🚀 ~ file: loan.controller.js:82 ~ createLoan ~ newLoan:",
-        newLoan
-      );
     }
 
     await newLoan.save();
+
+    const allLoans = await Loan.find().populate("borrowers");
+
 
     return res.status(201).json(newLoan);
   } catch (error) {

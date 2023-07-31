@@ -22,35 +22,13 @@ afterAll(commonAfterAll);
 /******* PATCH /loan */
 
 describe("PATCH /borrowers/update/:loanId/:pairId", function () {
-  // all fields changed except for the unique ID: email
+  const currentUserEmail = "testBorrower1@test.com";
   const newUserDetails = {
     firstName: "John's new first name",
     lastName: "John's new last name",
     phone: "111-111-1112",
   };
-
-  const currentUserEmail = "testBorrower1@test.com";
-
-  test("works: edits borrowers details for all fields (pairId provided as query string)", async function () {
-    const randomAssignment = await Assignment.findOne();
-
-    const resp = await request(app)
-      .patch(`/borrowers/update/pairId=${randomAssignment.pairId}`)
-      .send(newUserDetails);
-
-    const editedUser = await Borrower.findOne();
-
-    expect(resp.status).toEqual(200);
-    expect(resp.body.firstName).toEqual(newUserDetails.firstName);
-    expect(resp.body.lastName).toEqual(newUserDetails.lastName);
-    expect(resp.body.phone).toEqual(newUserDetails.phone);
-
-    expect(editedUser.firstName).toEqual(newUserDetails.firstName);
-    expect(editedUser.lastName).toEqual(newUserDetails.lastName);
-    expect(editedUser.phone).toEqual(newUserDetails.phone);
-  }, 7000);
-
-  test("works: edits borrowers details for all fields (emailId provided as query string)", async function () {
+  test("works: edits borrowers details for all fields (pairId and loanId provided in URL params)", async function () {
     const loan = await Loan.findOne().populate("borrowers");
     const resp = await request(app)
       .patch(`/borrowers/update/${loan.loanId}/${loan.borrowers[0].pairId}`)
@@ -96,8 +74,10 @@ describe("PATCH /borrowers/update/:loanId/:pairId", function () {
       ...newUserDetails,
       firstName: 123,
     };
+    const loan = await Loan.findOne().populate("borrowers");
+
     const resp = await request(app)
-      .patch(`/borrowers/update?email=${currentUserEmail}`)
+      .patch(`/borrowers/update/${loan.loanId}/${loan.borrowers[0].pairId}`)
       .send(invalidUserDetails);
 
     expect(resp.status).toEqual(500);
@@ -143,7 +123,7 @@ describe("DELETE /delete/:loanId/:pairId", function () {
     });
 
     expect(resp.status).toEqual(200);
-    expect(deletedBorrower).toBeFalsey();
+    expect(deletedBorrower).toBeFalsy();
   }, 7000);
 
   test("Not Found error from non-existent loan", async function () {
