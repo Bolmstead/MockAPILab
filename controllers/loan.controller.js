@@ -65,9 +65,6 @@ async function createLoan(req, res, next) {
 
     await newLoan.save();
 
-    const allLoans = await Loan.find().populate("borrowers");
-
-
     return res.status(201).json(newLoan);
   } catch (error) {
     return next(error);
@@ -85,7 +82,6 @@ async function deleteLoan(req, res, next) {
       );
     }
 
-    // Delete the Loan
     let deletedLoan = await Loan.findOneAndDelete({ loanId }).populate(
       "borrowers"
     );
@@ -102,6 +98,7 @@ async function deleteLoan(req, res, next) {
 
 async function clearDB(req, res, next) {
   try {
+    // Used for testing
     await Loan.deleteMany();
     await Borrower.deleteMany();
 

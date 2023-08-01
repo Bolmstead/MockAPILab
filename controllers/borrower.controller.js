@@ -34,7 +34,6 @@ async function updateBorrowerInfo(req, res, next) {
 
     const foundLoan = await Loan.findOne({ loanId }).populate("borrowers");
 
-
     if (!foundLoan) {
       throw new ExpressError("Loan not found", 404);
     }
@@ -49,6 +48,8 @@ async function updateBorrowerInfo(req, res, next) {
       throw new ExpressError("Borrower not found", 404);
     }
 
+    // For each property that needs to change,
+    // update it for the borrower
     for (const key in propertiesToChange) {
       if (!propertiesToChange[key]) {
         continue;
@@ -76,7 +77,6 @@ async function deleteBorrower(req, res, next) {
     let borrower;
 
     const foundLoan = await Loan.findOne({ loanId }).populate("borrowers");
-
 
     if (!foundLoan) {
       throw new ExpressError("Loan not found", 404);
