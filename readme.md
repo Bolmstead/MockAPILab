@@ -223,13 +223,7 @@ Bonus points will be awarded for:
 
 # Contact
 
-Berkley Olmstead - olms2074@gmail.com - [Linkedin](https://www.linkedin.com/in/berkleyolmstead/)
-
-Project Links:
-
-- [Live Site](https://freebay.netlify.app/)
-- [https://github.com/Bolmstead/taxrise-frontend](https://github.com/Bolmstead/taxrise-frontend)
-- [https://github.com/Bolmstead/taxrise-backend](https://github.com/Bolmstead/taxrise-backend)
+Berkley Olmstead - [Website](https://berkley-portfolio.netlify.app/) - olms2074@gmail.com - [Linkedin](https://www.linkedin.com/in/berkleyolmstead/)
 
 [node.js]: http://nodejs.org
 [React Bootstrap]: https://react-bootstrap.netlify.app/
