@@ -4,13 +4,13 @@ This API is Berkley Olmstead's submission for the LTK Node.js & Express Skills T
 
 # Table of Contents
 
-1. [How to Run the Project](#Run-Project)
-2. [Loan Routes](#Loan-Routes)
-3. [Borrower Routes](#Borrower-Routes)
-4. [Instructions](#Instructions)
-5. [Contact](#Contact)
+1. [How to Run the Project](#run-project)
+2. [Loan Routes](#loan-routes)
+3. [Borrower Routes](#borrower-routes)
+4. [Instructions](#instructions)
+5. [Contact](#contact)
 
-<a name="Run-Project"></a>
+<a name="run-project"></a>
 
 # How to Run the Project
 
@@ -43,7 +43,7 @@ This API requires [Node.JS](https://nodejs.org/) v18.17+ to run. To get a local 
 
 # API DOCUMENTATION
 
-<a name="Loan-Routes"></a>
+<a name="loan-routes"></a>
 
 ## Loan Routes
 
@@ -126,7 +126,7 @@ Deletes all created Loans
         "status": "success"
     }
 
-<a name="Borrower-Routes"></a>
+<a name="borrower-routes"></a>
 
 # Borrower Routes
 
@@ -219,7 +219,7 @@ Bonus points will be awarded for:
 - Best Practice development skills
 - Working Unit Tests
 
-<a name="Contact"></a>
+<a name="contact"></a>
 
 # Contact
 
