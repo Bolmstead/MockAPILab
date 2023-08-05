@@ -1,7 +1,6 @@
 "use strict";
 
 const request = require("supertest");
-process.env.NODE_ENV = "test";
 
 const app = require("../app.js");
 const Borrower = require("../models/borrower.model.js");

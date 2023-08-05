@@ -16,7 +16,7 @@ const router = new Router();
  * {firstName, lastName, phone}
  *
  * Returns:
- * { firstName, lastName, phone, borrowers: [ {borrower}, {borrower} ]  }
+ * { firstName, lastName, phone }
  *
  **/
 

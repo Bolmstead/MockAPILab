@@ -18,7 +18,6 @@ app.use("/", routes);
 app.get("/", (req, res) => {
   res.json({
     message: "✨ 👋🌏 ✨",
-    stage: process.env.NODE_ENV,
   });
 });
 
