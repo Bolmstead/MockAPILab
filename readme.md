@@ -4,13 +4,13 @@ This API is Berkley Olmstead's submission for the LTK Node.js & Express Skills T
 
 # Table of Contents
 
-1. [How to Run the Project](#run-project)
-2. [Loan Routes](#Loan-Route)
-3. [Borrower Routes](#Borrower-Route)
-4. [Instructions](#instructions)
+1. [How to Run the Project](#Run-Project)
+2. [Loan Routes](#Loan-Routes)
+3. [Borrower Routes](#Borrower-Routes)
+4. [Instructions](#Instructions)
 5. [Contact](#Contact)
 
-<a name="run-project"></a>
+<a name="Run-Project"></a>
 
 # How to Run the Project
 
@@ -42,11 +42,13 @@ This API requires [Node.JS](https://nodejs.org/) v18.17+ to run. To get a local 
    ```
 
 # API DOCUMENTATION
+
 <a name="Loan-Routes"></a>
 
 ## Loan Routes
 
 ### Create Loan
+
 Creates a new loan and assigns new borrowers to the loan.
 `POST /loans/create`
 
@@ -67,61 +69,62 @@ Creates a new loan and assigns new borrowers to the loan.
 
 ### Response:
 
-    { 
-        "loanId": "123", 
-        "borrowers": [ {borrower}, {borrower} ]  
+    {
+        "loanId": "123",
+        "borrowers": [ {borrower}, {borrower} ]
     }
 
 ## Get All Loans
+
 Returns all loans created along with their borrowers.
 `GET /loans/all`
 
 ### Response:
 
     [
-        { 
-            "loanId": "123", 
-            "borrowers": [ {borrower}, {borrower} ]  
+        {
+            "loanId": "123",
+            "borrowers": [ {borrower}, {borrower} ]
         },
-        { 
-            "loanId": "456", 
-            "borrowers": [ {borrower}, {borrower} ]  
+        {
+            "loanId": "456",
+            "borrowers": [ {borrower}, {borrower} ]
         },
     ]
-    
+
 ## Get Loan Details
+
 Returns loan details of a specific loan
 `GET /loans/details/:loanId`
 
 ### Response:
 
-    { 
-        "loanId": "123", 
-        "borrowers": [ {borrower}, {borrower} ]  
+    {
+        "loanId": "123",
+        "borrowers": [ {borrower}, {borrower} ]
     }
 
-## Delete Loan 
+## Delete Loan
+
 Deletes a loan when provided a loanId
 `DELETE /loans/delete/:loanId`
 
 ### Response:
 
-    { 
+    {
         "status": "success"
     }
 
+## Delete All Loans
 
-## Delete All Loans 
 Deletes all created Loans
 `DELETE /loans/delete-all`
 
 ### Response:
 
-    { 
+    {
         "status": "success"
     }
-
-
 
 <a name="Borrower-Routes"></a>
 
@@ -132,7 +135,6 @@ Deletes all created Loans
 Updates a borrower's firstName, lastName, or phone if provided in body of request. loanId and pairId need to be provided as URL parameters
 `PATCH /borrowers/:loanId/:pairId`
 
-
 #### Request Body:
 
     {
@@ -140,7 +142,6 @@ Updates a borrower's firstName, lastName, or phone if provided in body of reques
         "lastName": "Person",
         "phone": "222-999-2222"
     }
-
 
 #### Response:
 
@@ -151,9 +152,9 @@ Updates a borrower's firstName, lastName, or phone if provided in body of reques
     }
 
 ### Delete a Borrower
+
 Deletes a borrower and removes them from the loan when provided a loanId and pairId in URL parameters
 `DELETE /borrowers/:loanId/:pairId`
-
 
 #### Response:
 
@@ -161,23 +162,22 @@ Deletes a borrower and removes them from the loan when provided a loanId and pai
         "status": "success"
     }
 
+<a name="Instructions"></a>
 
-<a name="instructions"></a>
-
-## Lender Tool Kit Node.js & Express Skills Test Instructions 
+## Lender Tool Kit Node.js & Express Skills Test Instructions
 
 This skills test is designed to allow candidates to showcase your development skills with Node.Js.
 
-* Google can be used to lookup helpful information as needed.
-* Do not worry if you cannot fully complete the test within the allotted time, the purpose of the test is to allow us to determine skills and to get an insight into how you go about solving the problem.
-* Please submit a live recording of the exercise.
+- Google can be used to lookup helpful information as needed.
+- Do not worry if you cannot fully complete the test within the allotted time, the purpose of the test is to allow us to determine skills and to get an insight into how you go about solving the problem.
+- Please submit a live recording of the exercise.
 
 ## Prerequisites
 
 Please ensure that you have the following tools installed.
 
-* Visual Studio Code / or IDE of your choice
-* Node 16+
+- Visual Studio Code / or IDE of your choice
+- Node 16+
 
 ## Instructions
 
@@ -201,7 +201,6 @@ example loan object
     	],
     }
 
-
 step 4.) create a GET method that gets all loan objects
 
 step 5.) create a GET method that gets one loan object based on loanId
@@ -215,10 +214,10 @@ step 8.) create a PATCH or DELETE method that deletes a borrower based on loanId
 step 9.) create a DELETE method that deletes a loan object based on loanId
 
 Bonus points will be awarded for:
-* code organization
-* Best Practice development skills
-* Working Unit Tests
 
+- code organization
+- Best Practice development skills
+- Working Unit Tests
 
 <a name="Contact"></a>
 
