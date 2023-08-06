@@ -20,7 +20,7 @@ async function commonBeforeEach() {
     pairId,
     firstName: "John",
     lastName: "Doe",
-    phone: "222-222-2222",
+    phone: 1111111111,
   });
   await testUser1.save();
   const testLoan = new Loan({ loanId });

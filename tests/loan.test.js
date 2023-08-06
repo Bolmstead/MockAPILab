@@ -26,13 +26,13 @@ describe("POST /loan/create", function () {
   const testUser1 = {
     firstName: "Jane",
     lastName: "Smith",
-    phone: "123-123-1234",
+    phone: 1231231234,
   };
 
   const testUser2 = {
     firstName: "Bob",
     lastName: "Hope",
-    phone: "555-555-5555",
+    phone: 2222222222,
   };
 
   test("works: creates a loan with borrowers and assignments", async function () {
@@ -96,7 +96,7 @@ describe("POST /loan/create", function () {
       pairId: 123,
       firstName: "test",
       lastName: "test",
-      phone: "123",
+      phone: 5555555555,
     });
     expect(resp.statusCode).toEqual(500);
     expect(resp.body.error).toBeTruthy();

@@ -25,7 +25,7 @@ describe("PATCH /borrowers/update/:loanId/:pairId", function () {
   const newUserDetails = {
     firstName: "John's new first name",
     lastName: "John's new last name",
-    phone: "111-111-1112",
+    phone: 2222222222,
   };
   test("works: edits borrowers details for all fields (pairId and loanId provided in URL params)", async function () {
     const loan = await Loan.findOne().populate("borrowers");
