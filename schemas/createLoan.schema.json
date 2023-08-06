@@ -5,60 +5,51 @@
   "default": [],
   "title": "Root Schema",
   "items": {
-      "type": "object",
-      "title": "A Schema",
-      "required": [
-          "firstName",
-          "lastName",
-          "phone"
-      ],
-      "properties": {
-          "firstName": {
-              "type": "string",
-              "title": "The firstName Schema",
-              "examples": [
-                  "Barbra",
-                  "Bob"
-              ]
-          },
-          "lastName": {
-              "type": "string",
-              "title": "The lastName Schema",
-              "examples": [
-                  "Johnson",
-                  "Smith"
-              ]
-          },
-          "phone": {
-              "type": "integer",
-              "title": "The phone Schema",
-              "examples": [
-                  2089999799,
-                  2085555555
-              ]
-          }
+    "type": "object",
+    "title": "A Schema",
+    "required": ["firstName", "lastName", "phone"],
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "title": "The firstName Schema",
+        "examples": ["Barbra", "Bob"]
       },
-      "examples": [{
-          "firstName": "Barbra",
-          "lastName": "Johnson",
-          "phone": 2089999799
+      "lastName": {
+        "type": "string",
+        "title": "The lastName Schema",
+        "examples": ["Johnson", "Smith"]
+      },
+      "phone": {
+        "type": "string",
+        "title": "The phone Schema",
+        "examples": ["208-999-9799", "208-555-5555"]
+      }
+    },
+    "examples": [
+      {
+        "firstName": "Barbra",
+        "lastName": "Johnson",
+        "phone": "208-999-9799"
       },
       {
-          "firstName": "Bob",
-          "lastName": "Smith",
-          "phone": 2085555555
-      }]
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "phone": "208-555-5555"
+      }
+    ]
   },
   "examples": [
-      [{
-          "firstName": "Barbra",
-          "lastName": "Johnson",
-          "phone": 2089999799
+    [
+      {
+        "firstName": "Barbra",
+        "lastName": "Johnson",
+        "phone": "208-999-9799"
       },
       {
-          "firstName": "Bob",
-          "lastName": "Smith",
-          "phone": 2085555555
-      }]
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "phone": "208-555-5555"
+      }
+    ]
   ]
 }

@@ -4,31 +4,36 @@
   "type": "object",
   "default": {},
   "title": "Root Schema",
+
   "properties": {
-    "firstName": {
-      "type": "string",
-      "default": "",
-      "title": "The firstName Schema",
-      "examples": ["bobbbbbbbb"]
-    },
-    "lastName": {
-      "type": "string",
-      "default": "",
-      "title": "The lastName Schema",
-      "examples": ["Smith"]
-    },
-    "phone": {
-      "type": "integer",
-      "default": 0,
-      "title": "The phone Schema",
-      "examples": [1234567890]
-    }
+      "firstName": {
+          "type": "string",
+          "default": "",
+          "title": "The firstName Schema",
+          "examples": [
+              "bobbbbbbbb"
+          ]
+      },
+      "lastName": {
+          "type": "string",
+          "default": "",
+          "title": "The lastName Schema",
+          "examples": [
+              "Smith"
+          ]
+      },
+      "phone": {
+          "type": "string",
+          "default": "",
+          "title": "The phone Schema",
+          "examples": [
+              "123-456-7890"
+          ]
+      }
   },
-  "examples": [
-    {
+  "examples": [{
       "firstName": "bobbbbbbbb",
       "lastName": "Smith",
-      "phone": 1234567890
-    }
-  ]
+      "phone": "123-456-7890"
+  }]
 }

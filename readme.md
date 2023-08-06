@@ -70,7 +70,7 @@ Creates a new loan and assigns new borrowers to the loan.
 ### Response:
 
     {
-        "loanId": "123",
+        "loanId": 123,
         "borrowers": [ {borrower}, {borrower} ]
     }
 
@@ -83,11 +83,11 @@ Returns all loans created along with their borrowers.
 
     [
         {
-            "loanId": "123",
+            "loanId": 123,
             "borrowers": [ {borrower}, {borrower} ]
         },
         {
-            "loanId": "456",
+            "loanId": 456,
             "borrowers": [ {borrower}, {borrower} ]
         },
     ]
@@ -100,7 +100,7 @@ Returns loan details of a specific loan
 ### Response:
 
     {
-        "loanId": "123",
+        "loanId": 123,
         "borrowers": [ {borrower}, {borrower} ]
     }
 

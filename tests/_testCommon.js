@@ -4,7 +4,7 @@ const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const Borrower = require("../models/borrower.model.js");
 const Loan = require("../models/loan.model.js");
-const generateRandomNumber = require("../helpers/generateRandomNumber.js");
+const generateRandomNumber = require("../helpers/generateRandomNumber.js")
 async function commonBeforeAll() {
   const mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
@@ -20,7 +20,7 @@ async function commonBeforeEach() {
     pairId,
     firstName: "John",
     lastName: "Doe",
-    phone: 1111111111,
+    phone: "222-222-2222",
   });
   await testUser1.save();
   const testLoan = new Loan({ loanId });
