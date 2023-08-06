@@ -18,7 +18,7 @@ Live API Service URI: [https://ltk-backend.onrender.com](https://ltk-backend.onr
 
 ### Clone the Repo
 
-This API requires [Node.JS](https://nodejs.org/) v18.17+ to run. To get a local copy up and running follow these steps:
+This API requires [Node.JS](https://nodejs.org/) v18+ to run. To get a local copy up and running follow these steps:
 
 1. Clone the backend repo to a separate directory by entering the following in a CLI:
    ```sh
