@@ -18,11 +18,13 @@
     "jsonschema": "^1.4.1",
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.1"
-
   },
   "devDependencies": {
     "mongodb-memory-server": "^8.13.0",
     "mongoose": "^7.4.1",
     "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
