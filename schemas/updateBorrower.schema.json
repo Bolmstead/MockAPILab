@@ -4,12 +4,13 @@
   "type": "object",
   "default": {},
   "title": "Root Schema",
+  "required": ["firstName", "lastName", "phone"],
   "properties": {
     "firstName": {
       "type": "string",
       "default": "",
       "title": "The firstName Schema",
-      "examples": ["bob"]
+      "examples": ["bobbbbbbbb"]
     },
     "lastName": {
       "type": "string",
@@ -18,17 +19,17 @@
       "examples": ["Smith"]
     },
     "phone": {
-      "type": "string",
-      "default": "",
+      "type": "integer",
+      "default": 0,
       "title": "The phone Schema",
-      "examples": ["555-555-5555"]
+      "examples": [1234567890]
     }
   },
   "examples": [
     {
-      "firstName": "bob",
+      "firstName": "bobbbbbbbb",
       "lastName": "Smith",
-      "phone": "555-555-5555"
+      "phone": 1234567890
     }
   ]
 }

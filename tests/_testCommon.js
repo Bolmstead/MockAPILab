@@ -4,8 +4,7 @@ const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const Borrower = require("../models/borrower.model.js");
 const Loan = require("../models/loan.model.js");
-const { v4: uuid } = require("uuid");
-
+const generateRandomNumber = require("../helpers/generateRandomNumber.js");
 async function commonBeforeAll() {
   const mongoServer = await MongoMemoryServer.create();
   await mongoose.connect(mongoServer.getUri());
@@ -14,8 +13,8 @@ async function commonBeforeAll() {
 async function commonBeforeEach() {
   // Create one loan with a borrower before every test
 
-  const pairId = uuid();
-  const loanId = uuid();
+  const pairId = generateRandomNumber();
+  const loanId = generateRandomNumber();
 
   const testUser1 = new Borrower({
     pairId,

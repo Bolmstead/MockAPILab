@@ -1,6 +1,6 @@
 const Loan = require("../models/loan.model.js");
 const Borrower = require("../models/borrower.model.js");
-const { v4: uuid } = require("uuid");
+const generateRandomNumber = require("../helpers/generateRandomNumber.js");
 const ExpressError = require("../expressError.js");
 const jsonschema = require("jsonschema");
 const createLoanSchema = require("../schemas/createLoan.schema.json");
@@ -44,14 +44,14 @@ async function createLoan(req, res, next) {
       const errs = validator.errors.map((e) => e.stack);
       throw new ExpressError(errs);
     }
-    const loanId = uuid();
+    const loanId = generateRandomNumber();
 
     const newLoan = new Loan({ ...req.body, loanId });
 
     await newLoan.save();
 
     for (let borrower of req.body) {
-      const pairId = uuid();
+      const pairId = generateRandomNumber();
 
       const newBorrower = new Borrower({
         ...borrower,
