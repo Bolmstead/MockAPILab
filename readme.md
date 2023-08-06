@@ -43,6 +43,10 @@ This API requires [Node.JS](https://nodejs.org/) v18.17+ to run. To get a local 
    npm start
    ```
 
+### Use Postman Collection to Make API Calls
+
+6. Import the postmanCalls.json into your Postman Application to start making API calls
+
 # API DOCUMENTATION
 
 <a name="loan-routes"></a>
