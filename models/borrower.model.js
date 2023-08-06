@@ -20,8 +20,6 @@ const borrowerSchema = new Schema(
     },
     phone: {
       type: Number,
-      min: [10, "Must be at least 10, got {VALUE}"],
-      max: 13,
       trim: true,
       required: true,
     },

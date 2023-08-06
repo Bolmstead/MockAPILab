@@ -44,6 +44,7 @@ async function createLoan(req, res, next) {
       const errs = validator.errors.map((e) => e.stack);
       throw new ExpressError(errs);
     }
+
     const loanId = generateRandomNumber();
 
     const newLoan = new Loan({ ...req.body, loanId });
