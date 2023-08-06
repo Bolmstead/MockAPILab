@@ -2,6 +2,8 @@
 
 This API is Berkley Olmstead's submission for the LTK Node.js & Express Skills Test. API documentation, along with the Assessment's instructions are included in this Readme.
 
+Live API Service URI: [https://ltk-backend.onrender.com](https://ltk-backend.onrender.com)
+
 # Table of Contents
 
 1. [How to Run the Project](#run-project)
@@ -224,6 +226,8 @@ Bonus points will be awarded for:
 # Contact
 
 Berkley Olmstead - [Website](https://berkley-portfolio.netlify.app/) - olms2074@gmail.com - [Linkedin](https://www.linkedin.com/in/berkleyolmstead/)
+
+Live API Service URI: [https://ltk-backend.onrender.com](https://ltk-backend.onrender.com)
 
 [node.js]: http://nodejs.org
 [React Bootstrap]: https://react-bootstrap.netlify.app/

@@ -1,170 +1,209 @@
 {
-  "info": {
-    "_postman_id": "e17df440-6cc5-4332-b9cd-71da8b494934",
-    "name": "LTK Node Assessment",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "12686737",
-    "_collection_link": "https://orange-space-870916.postman.co/workspace/Chat-GPT~493f09cd-3dce-4de2-a0cd-e3fe712263f7/collection/12686737-e17df440-6cc5-4332-b9cd-71da8b494934?action=share&creator=12686737&source=collection_link"
-  },
-  "item": [
-    {
-      "name": "Get All Loans",
-      "request": {
-        "method": "GET",
-        "header": []
-      },
-      "response": []
-    },
-    {
-      "name": "Get Loan Details",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/loans/details/a88de20b-f631-4dda-be51-f404930a1d39",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["loans", "details", "a88de20b-f631-4dda-be51-f404930a1d39"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Create Loan",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "[\n    {\n        \"firstName\": \"Barbra\",\n        \"lastName\": \"Johnson\",\n        \"phone\": \"208-999-9799\"\n    },\n        {\n        \"firstName\": \"Bob\",\n        \"lastName\": \"Smith\",\n        \"phone\": \"208-555-5555\"\n    }\n\n]",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/loans/create",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["loans", "create"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Update Borrower",
-      "request": {
-        "method": "PATCH",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"firstName\": \"bob\",\n    \"lastName\": \"Smith\",\n    \"phone\": \"555-555-5555\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/borrowers/update?email=testBob@gmail.com",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["borrowers", "update"],
-          "query": [
-            {
-              "key": "email",
-              "value": "testBob@gmail.com"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Delete Borrower",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/borrowers/delete?email=bobJ@test.com",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["borrowers", "delete"],
-          "query": [
-            {
-              "key": "email",
-              "value": "bobJ@test.com"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Delete Loan",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/loans/delete/{{loanId}}",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["loans", "delete", "{{loanId}}"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Clear DB",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/loans/delete/9e6adab1-1cf5-4521-8104-6e470d837798asdf",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": [
-            "loans",
-            "delete",
-            "9e6adab1-1cf5-4521-8104-6e470d837798asdf"
-          ]
-        }
-      },
-      "response": []
-    }
-  ]
+	"info": {
+		"_postman_id": "e17df440-6cc5-4332-b9cd-71da8b494934",
+		"name": "LTK Node Assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12686737",
+		"_collection_link": "https://orange-space-870916.postman.co/workspace/Chat-GPT~493f09cd-3dce-4de2-a0cd-e3fe712263f7/collection/12686737-e17df440-6cc5-4332-b9cd-71da8b494934?action=share&creator=12686737&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Get All Loans",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ltk-backend.onrender.com/loans/all",
+					"protocol": "https",
+					"host": [
+						"ltk-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"loans",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Loan Details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ltk-backend.onrender.com/loans/details/123",
+					"protocol": "https",
+					"host": [
+						"ltk-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"loans",
+						"details",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Loan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"firstName\": \"Barbra\",\n        \"lastName\": \"Johnson\",\n        \"phone\": \"208-999-9799\"\n    },\n    {\n        \"firstName\": \"Bob\",\n        \"lastName\": \"Smith\",\n        \"phone\": \"208-555-5555\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ltk-backend.onrender.com/loans/create",
+					"protocol": "https",
+					"host": [
+						"ltk-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"loans",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Borrower",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"bobbbbbbbb\",\n    \"lastName\": \"Smith\",\n    \"phone\": \"123-456-7890\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ltk-backend.onrender.com/borrowers/update/123/456",
+					"protocol": "https",
+					"host": [
+						"ltk-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"borrowers",
+						"update",
+						"123",
+						"456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Borrower",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ltk-backend.onrender.com/borrowers/delete/123/456",
+					"protocol": "https",
+					"host": [
+						"ltk-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"borrowers",
+						"delete",
+						"123",
+						"456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Loan",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ltk-backend.onrender.com/loans/delete/123",
+					"protocol": "https",
+					"host": [
+						"ltk-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"loans",
+						"delete",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clear DB",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ltk-backend.onrender.com/loans/delete-all",
+					"protocol": "https",
+					"host": [
+						"ltk-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"loans",
+						"delete-all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
